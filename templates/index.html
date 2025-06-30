@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Collector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        {% if not api_key_valid %}
+        <div id="api-key-section" class="api-key-section">
+            <span>API Key</span>
+            <input type="text" id="api-key-input" placeholder="Enter your CSFloat API key">
+            <button onclick="saveApiKey()">Save</button>
+            <span id="api-key-status" class="api-key-status"></span>
+        </div>
+        {% else %}
+        <div id="api-key-section" class="api-key-section">
+            <span>API Key</span>
+            <span class="api-key-valid">✓</span>
+        </div>
+        {% endif %}
+        <h1>Case Collector</h1>
+        <div class="scroll-outer-wrap">
+          <div id="live-price-strip" class="price-strip-container"></div>
+        </div>
+        <div class="top-bar">
+            <div class="totals">
+                <div id="total-invested" class="total-box">Invested: $0.00</div>
+                <div id="total-pl" class="total-box">Profit/Loss: $0.00</div>
+                <div id="total-value" class="total-box">Value: $0.00</div>
+            </div>
+        </div>
+        <button class="add-btn" onclick="showCaseSelector()">Add Case</button>
+        <button class="refresh-btn" onclick="refreshPrices()">Refresh Prices</button>
+        <div id="cards-container" class="cards-container"></div>
+    </div>
+
+    <div id="case-selector" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideCaseSelector()">×</span>
+            <h2>Select a Case</h2>
+            <div id="cases-list" class="cases-list"></div>
+        </div>
+    </div>
+
+    <div id="confirm-remove-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="hideConfirmRemoveModal()">&times;</span>
+            <h2>Confirm Removal</h2>
+            <p>Are you sure you want to remove this case from your portfolio?</p>
+            <div class="modal-buttons">
+                <button onclick="confirmRemoveCase()">Yes</button>
+                <button onclick="hideConfirmRemoveModal()">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script id="initial-data" type="application/json">
+        {
+            "investments": {{ investments | tojson }},
+            "case_names": {{ case_names | tojson }},
+            "release_years": {{ release_years | tojson }},
+            "release_dates": {{ release_dates | tojson }}
+        }
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93d88bb11b61ed88',t:'MTc0Njg3MDc2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93dd4aacbd98bd62',t:'MTc0NjkyMDUzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>
